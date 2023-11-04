@@ -4,7 +4,7 @@ import { Button, TextField, Container, Typography, Grid, Card, CardContent, Icon
 import { Delete } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
-const API_BASE_URL = 'https://devopsinsiders-todo-backend.azurewebsites.net';
+const API_BASE_URL = 'http://20.204.117.42:8083';
 
 const backgroundImage = process.env.PUBLIC_URL + '/background.jpg';
 
