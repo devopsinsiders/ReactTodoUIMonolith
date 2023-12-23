@@ -1,4 +1,4 @@
-**Readme for Todo App**
+# Readme for Todo App
 
 ### Installation
 
