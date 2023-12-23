@@ -1,6 +1,6 @@
-# Readme for Todo App
+# Readme for Todo App 📝
 
-### Installation
+### Installation 🚀
 
 1. **Install Node.js and NPM on Ubuntu:**
    - Make sure you have Node.js 16.x and NPM installed on your machine. If not, you can install them using the following commands:
@@ -9,13 +9,13 @@
      sudo apt install nodejs -y
      ```
 
-### Configuration
+### Configuration ⚙️
 
 2. **Update Backend URL:**
    - Open the `src/TodoApp.js` file.
    - Locate the variable storing the backend URL and update it with the appropriate value. (* See Below for PrivateIp Configuration)
 
-### Building and Running
+### Building and Running 🏗️
 
 3. **Install Dependencies:**
    - Run the following command to install project dependencies:
@@ -29,17 +29,17 @@
      npm run build
      ```
 
-### Deployment
+### Deployment 🚀
 
 5. **Deploy to Nginx Server:**
    - Copy the generated artifacts from the build process.
    - Deploy the artifacts to your Nginx server. Ensure that the server is properly configured to serve the application.
 
-## * Using Private IP on the Backend VM
+## * Using Private IP on the Backend VM 🌐
 
 To use a Private IP on the Backend VM, follow the steps below:
 
-### 1. Configure NGINX on the Backend VM
+### 1. Configure NGINX on the Backend VM ⚙️
 
 Open the NGINX configuration file:
 
@@ -47,7 +47,7 @@ Open the NGINX configuration file:
 sudo nano /etc/nginx/sites-available/default
 ```
 
-### 2. Insert Proxy Configuration
+### 2. Insert Proxy Configuration 🔄
 
 Copy and paste the following code just above the `root /var/www/html` line:
 
@@ -63,7 +63,7 @@ location /api {
 
 Replace `<PrivateIP of BackendVM>` with the actual Private IP address of your Backend VM.
 
-### 3. Update Frontend Configuration
+### 3. Update Frontend Configuration ⚙️
 
 Open the `src/TodoApp.js` file in your frontend project.
 
@@ -75,7 +75,7 @@ const API_BASE_URL = 'http://<FrontendVM Public IP>:80/api';
 
 Replace `<FrontendVM Public IP>` with the actual Public IP address of your Frontend VM.
 
-## Important Note
+## Important Note 📌
 
 Make sure to restart NGINX on the VM after making the changes:
 
