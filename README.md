@@ -77,7 +77,7 @@ Replace `<FrontendVM Public IP>` with the actual Public IP address of your Front
 
 ## Important Note
 
-Make sure to restart NGINX on the Backend VM after making the changes:
+Make sure to restart NGINX on the VM after making the changes:
 
 ```bash
 sudo service nginx restart
