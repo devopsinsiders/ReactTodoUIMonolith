@@ -8,4 +8,21 @@ stages:
   jobs:
   - job: InstallNodejs
     displayName:  Install Nodejs
-    
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+  
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+
+
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        customCommand: 'run build'
+      
