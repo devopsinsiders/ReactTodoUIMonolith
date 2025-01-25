@@ -25,4 +25,13 @@ stages:
         command: 'custom'
         workingDir: '$(System.DefaultWorkingDirectory)'
         customCommand: 'run build'
-      
+    
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/build'
+        artifact: 'todoui'
+        publishLocation: 'pipeline'
+  
+
+     
+     
