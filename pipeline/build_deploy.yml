@@ -1,0 +1,11 @@
+trigger: none
+
+pool: Git_Agent_Pool
+
+stages:
+- stage: buildinstaller
+  displayName:  Build folder Creation
+  jobs:
+  - job: InstallNodejs
+    displayName:  Install Nodejs
+    
