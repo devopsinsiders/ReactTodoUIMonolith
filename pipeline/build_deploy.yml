@@ -15,18 +15,21 @@ stages:
         versionSpec: '16.x'
   
     - task: Npm@1
+      displayName: npm install
       inputs:
         command: 'install'
         workingDir: '$(System.DefaultWorkingDirectory)'
 
 
     - task: Npm@1
+      displayName:  npm build
       inputs:
         command: 'custom'
         workingDir: '$(System.DefaultWorkingDirectory)'
         customCommand: 'run build'
     
     - task: PublishPipelineArtifact@1
+      displayName:  Build Artifact
       inputs:
         targetPath: '$(System.DefaultWorkingDirectory)/build'
         artifact: 'todoui'
