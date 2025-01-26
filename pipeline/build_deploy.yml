@@ -49,6 +49,15 @@ stages:
         artifactName: 'todoui'
         downloadPath: '$(Build.ArtifactStagingDirectory)'
 
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'Azure_VM'
+        runOptions: 'commands'
+        commands: |
+          sudo chmod -R 777 /var/www/html
+          sudo rm -rf /var/www/html/*
+        readyTimeout: '20000'
+
     - task: CopyFilesOverSSH@0
       inputs:
         sshEndpoint: 'Azure_VM'
