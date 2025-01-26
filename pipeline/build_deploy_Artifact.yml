@@ -1,10 +1,10 @@
 trigger: none
 
-pool: 
+pool: Git_Agent_Pool
 
 stages:
 - stage: AzureArtifacts
-  dependsOn: Azure Artifiacts 
+  displayName: Azure_Artifacts
   jobs: 
   - job: npmbuildFolderCreation
     displayName:  Build Folder Creation
