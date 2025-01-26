@@ -1,0 +1,16 @@
+trigger: none
+
+pool: 
+
+stages:
+- stage: AzureArtifacts
+  dependsOn: Azure Artifiacts 
+  jobs: 
+  - job: NPMBuildFolderCreation
+    displayName:  Build Folder Creation
+    
+
+  
+  
+  
+      
