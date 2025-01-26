@@ -4,6 +4,7 @@ pool: Git_Agent_Pool
 
 stages:
 - stage: buildinstaller
+
   displayName:  Build folder Creation
   jobs:
   - job: InstallNodejs
@@ -37,4 +38,13 @@ stages:
   
 
      
-     
+- stage: deployapplication
+  jobs:
+  - job: Deploystage
+    steps:
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'todoui'
+        downloadPath: '$(System.ArtifactStagingDirectory)'
