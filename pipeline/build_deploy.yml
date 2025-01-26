@@ -47,4 +47,4 @@ stages:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'todoui'
-        downloadPath: '$(System.ArtifactStagingDirectory)'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
