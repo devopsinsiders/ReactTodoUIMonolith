@@ -48,3 +48,11 @@ stages:
         downloadType: 'single'
         artifactName: 'todoui'
         downloadPath: '$(Build.ArtifactStagingDirectory)'
+
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'Azure_VM'
+        sourceFolder: '$(Build.ArtifactStagingDirectory)'
+        contents: '**'
+        targetFolder: '/var/www/html'
+        readyTimeout: '20000'
