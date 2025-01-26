@@ -6,7 +6,7 @@ stages:
 - stage: AzureArtifacts
   dependsOn: Azure Artifiacts 
   jobs: 
-  - job: NPMBuildFolderCreation
+  - job: npmbuildFolderCreation
     displayName:  Build Folder Creation
 
     steps:
