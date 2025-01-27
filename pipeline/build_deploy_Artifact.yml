@@ -18,6 +18,11 @@ stages:
 
     - task: Npm@1
       inputs:
+        command: 'custom'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        customCommand: 'cache clean --force'
+    - task: Npm@1
+      inputs:
         command: 'install'
         workingDir: '$(System.DefaultWorkingDirectory)'
     
