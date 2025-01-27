@@ -10,6 +10,12 @@ stages:
     displayName:  Build Folder Creation
 
     steps:
+    
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+
     - task: Npm@1
       inputs:
         command: 'install'
