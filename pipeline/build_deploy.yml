@@ -1,0 +1,67 @@
+trigger: none
+
+pool: Git_Agent_Pool
+
+stages:
+- stage: buildinstaller
+
+  displayName:  Build folder Creation
+  jobs:
+  - job: InstallNodejs
+    displayName:  Install Nodejs
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+  
+    - task: Npm@1
+      displayName: npm install
+      inputs:
+        command: 'install'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+
+
+    - task: Npm@1
+      displayName:  npm build
+      inputs:
+        command: 'custom'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        customCommand: 'run build'
+    
+    - task: PublishPipelineArtifact@1
+      displayName:  Build Artifact
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/build'
+        artifact: 'todoui'
+        publishLocation: 'pipeline'
+  
+
+     
+- stage: deployapplication
+  jobs:
+  - job: Deploystage
+    steps:
+    - task: DownloadBuildArtifacts@1
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'todoui'
+        downloadPath: '$(Build.ArtifactStagingDirectory)'
+
+    - task: SSH@0
+      inputs:
+        sshEndpoint: 'Azure_VM'
+        runOptions: 'commands'
+        commands: |
+          sudo chmod -R 777 /var/www/html
+          sudo rm -rf /var/www/html/*
+        readyTimeout: '20000'
+
+    - task: CopyFilesOverSSH@0
+      inputs:
+        sshEndpoint: 'Azure_VM'
+        sourceFolder: '$(Build.ArtifactStagingDirectory)'
+        contents: '**'
+        targetFolder: '/var/www/html'
+        readyTimeout: '20000'

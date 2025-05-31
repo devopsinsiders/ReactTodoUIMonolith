@@ -1,0 +1,42 @@
+trigger: none
+
+pool: Git_Agent_Pool
+
+stages:
+- stage: AzureArtifacts
+  displayName: Azure_Artifacts
+  jobs: 
+  - job: npmbuildFolderCreation
+    displayName:  Build Folder Creation
+
+    steps:
+    
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        customCommand: 'cache clean --force'
+    - task: Npm@1
+      inputs:
+        command: 'install'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+    
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        customCommand: 'run build'
+    
+    - task: Npm@1
+      inputs:
+        command: 'publish'
+        workingDir: '$(System.DefaultWorkingDirectory)'
+        publishRegistry: 'useFeed'
+        publishFeed: '7ff592bf-2f9c-4bda-940f-52a3ce874ff3/4a49be3a-e9b2-412c-bf15-2859be070792'
+  
+      
