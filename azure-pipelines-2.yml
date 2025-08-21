@@ -22,4 +22,4 @@ steps:
     azureSubscription: 'azure-connect'
     appType: 'webAppLinux'
     appName: 'todo-mono'
-    package: '$(System.ArtifactsDirectory)/todo-art/*.zip'
+    package: '$(System.ArtifactsDirectory)/todo-art/build.zip'
