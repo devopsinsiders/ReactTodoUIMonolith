@@ -33,5 +33,13 @@ stages:
             sshEndpoint: 'vm-connect'
             sourceFolder: '$(System.DefaultWorkingDirectory)/build'
             contents: '**'
-            targetFolder: '/tmp'
+            targetFolder: '/tmp/app'
+            readyTimeout: '20000'
+
+        - task: SSH@0
+          displayName: trasfer to nginx hosted path
+          inputs:
+            sshEndpoint: 'vm-connect'
+            runOptions: 'commands'
+            commands: 'sudo cp -r /tmp/app /var/www/html'
             readyTimeout: '20000'
