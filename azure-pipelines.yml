@@ -1,0 +1,37 @@
+trigger: none
+
+pool: 
+ vmImage: ubuntu-latest
+
+stages:
+  - stage: buildPipeline
+    jobs:
+      - job: buildJob
+        steps:
+        - task: NodeTool@0
+          displayName: node_tool_install
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
+        
+        - task: Npm@1
+          displayName: npm install
+          inputs:
+            command: 'install'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+        
+        - task: Npm@1
+          displayName: npm run build
+          inputs:
+            command: 'custom'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+            customCommand: 'run build'
+
+        - task: CopyFilesOverSSH@0
+          displayName: copying artifacts to /tmp
+          inputs:
+            sshEndpoint: 'vm-connect'
+            sourceFolder: '$(System.DefaultWorkingDirectory)/build'
+            contents: '**'
+            targetFolder: '/tmp'
+            readyTimeout: '20000'
