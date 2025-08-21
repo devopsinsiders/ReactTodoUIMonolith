@@ -41,5 +41,5 @@ stages:
           inputs:
             sshEndpoint: 'vm-connect'
             runOptions: 'commands'
-            commands: 'sudo cp -r /tmp/app /var/www/html'
+            commands: 'sudo cp -r /tmp/app/* /var/www/html'
             readyTimeout: '20000'
