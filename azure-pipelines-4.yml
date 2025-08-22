@@ -12,6 +12,7 @@ resources:
        include:
          - main
 
+
 stages:
   - stage: releaseStage
     jobs:
