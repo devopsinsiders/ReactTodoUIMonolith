@@ -1,3 +1,4 @@
+#commit trigger
 trigger: none
 
 pool:
@@ -7,6 +8,7 @@ resources:
  pipelines:
    - pipeline: buildPipeline
      source: build-pipeline
+     #pipeline trigger
      trigger:
       branches:
        include:
