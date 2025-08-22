@@ -3,6 +3,15 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
+resources:
+ pipelines:
+   - pipeline: buildPipeline
+     source: build-pipeline
+     trigger:
+      branches: 
+        include:
+          - main
+
 steps:
 - task: DownloadBuildArtifacts@1
   displayName: artifacts downloading
