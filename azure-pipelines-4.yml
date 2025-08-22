@@ -16,6 +16,16 @@ resources:
 
 
 stages:
+  - stage: manualApproval
+    pool: server
+    jobs:
+      - job: manualJob
+        steps:
+        - task: ManualValidation@1
+          inputs:
+            notifyUsers: 'achinta.dutta04@gmail.com'
+            approvers: 'achinta.dutta04@gmail.com'
+        
   - stage: releaseStage
     jobs:
       - job: releaseJob
