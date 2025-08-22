@@ -1,0 +1,29 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+  - stage: releaseStage
+    jobs:
+      - job: releaseJob
+        steps:
+        - task: DownloadBuildArtifacts@1
+          displayName: downloading artifacts
+          inputs:
+            buildType: 'specific'
+            project: '69103846-becd-4318-a595-e531c82077af'
+            pipeline: '17'
+            buildVersionToDownload: 'latest'
+            downloadType: 'single'
+            artifactName: 'todo-build'
+            downloadPath: '$(System.ArtifactsDirectory)'
+            cleanDestinationFolder: true
+        
+        - task: AzureWebApp@1
+          displayName: deploy to webapp
+          inputs:
+            azureSubscription: 'web-connect'
+            appType: 'webAppLinux'
+            appName: 'todo00'
+            package: '$(System.ArtifactsDirectory)/todo-build/build.zip'
