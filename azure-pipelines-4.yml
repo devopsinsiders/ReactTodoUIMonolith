@@ -3,6 +3,15 @@ trigger: none
 pool:
   vmImage: ubuntu-latest
 
+resources:
+ pipelines:
+   - pipeline: buildPipeline
+     source: build-pipeline
+     trigger:
+      branches:
+       include:
+         - main
+
 stages:
   - stage: releaseStage
     jobs:
