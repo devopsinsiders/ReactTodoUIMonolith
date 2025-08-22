@@ -1,0 +1,44 @@
+trigger: none
+
+pool: 
+ vmImage: ubuntu-latest
+
+stages:
+  - stage: deploymentStage
+    jobs:
+      - job: deploymentJob
+        steps:
+        - task: NodeTool@0
+          displayName: node tool installed
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
+        
+        - task: Npm@1
+          displayName: npm install
+          inputs:
+            command: 'install'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+
+        - task: Npm@1
+          displayName: building artifacts
+          inputs:
+            command: 'custom'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+            customCommand: 'run build'
+        
+        - task: ArchiveFiles@2
+          displayName: archiving artifacts
+          inputs:
+            rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
+            includeRootFolder: false
+            archiveType: 'zip'
+            archiveFile: '$(Build.ArtifactStagingDirectory)/build.zip'
+            replaceExistingArchive: true
+
+        - task: PublishBuildArtifacts@1
+          displayName: publishing artifacts to ado build pipeline
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'todo-build'
+            publishLocation: 'Container'
