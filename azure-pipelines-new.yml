@@ -1,0 +1,59 @@
+trigger: none
+
+pool:
+ vmImage: ubuntu-latest
+
+stages:
+  - stage: build
+    jobs:
+      - job: buildJob
+        steps:
+        - task: Npm@1
+          displayName: npm install run
+          inputs:
+            command: 'install'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+
+        - task: Npm@1
+          displayName: npm run build running
+          inputs:
+            command: 'custom'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+            customCommand: 'run build'
+
+        - task: PublishPipelineArtifact@1
+          displayName: upload artifacts
+          inputs:
+            targetPath: '$(System.DefaultWorkingDirectory)/build'
+            artifact: 'todo-build'
+            publishLocation: 'pipeline'
+
+  - stage: deploy
+    jobs:
+      - job: deploymentJob
+        steps:
+        - task: DownloadBuildArtifacts@1
+          displayName: download artifacts
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'todo-build'
+            downloadPath: '$(System.ArtifactsDirectory)'
+            cleanDestinationFolder: true
+          
+        - task: CopyFilesOverSSH@0
+          displayName: copying artifacts
+          inputs:
+            sshEndpoint: 'app-connect'
+            sourceFolder: '$(System.ArtifactsDirectory)'
+            contents: '**'
+            targetFolder: '/tmp'
+            readyTimeout: '20000'
+
+        - task: SSH@0
+          displayName: copying file from /tmp to /html
+          inputs:
+            sshEndpoint: 'app-connect'
+            runOptions: 'commands'
+            commands: 'cp -r /tmp/build/* /var/www/html'
+            readyTimeout: '20000'
