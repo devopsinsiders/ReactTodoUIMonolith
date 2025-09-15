@@ -58,5 +58,5 @@ stages:
           inputs:
             sshEndpoint: 'app-connect'
             runOptions: 'commands'
-            commands: 'cp -r /home/achinta/build/* /var/www/html'
+            commands: 'sudo cp -r /home/achinta/build/* /var/www/html'
             readyTimeout: '20000'
