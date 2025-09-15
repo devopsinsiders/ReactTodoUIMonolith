@@ -33,6 +33,7 @@ stages:
       - job: deploymentJob
         steps:
         - task: DownloadBuildArtifacts@1
+          continueOnError: true
           displayName: download artifacts
           inputs:
             buildType: 'current'
@@ -40,12 +41,10 @@ stages:
             artifactName: 'todo-build'
             downloadPath: '$(System.ArtifactsDirectory)'
             cleanDestinationFolder: true
-        - task: CmdLine@2
-          inputs:
-            script: 'ls $(System.ArtifactsDirectory)'
 
         - task: CopyFilesOverSSH@0
           displayName: copying artifacts
+          continueOnError: true
           inputs:
             sshEndpoint: 'app-connect'
             sourceFolder: '$(System.ArtifactsDirectory)'
