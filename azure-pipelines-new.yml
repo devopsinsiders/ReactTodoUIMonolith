@@ -4,6 +4,29 @@ pool:
  vmImage: ubuntu-latest
 
 stages:
+  
+  - stage: sastscanning
+    jobs:
+      - job: sastscan
+        steps:
+         - checkout: self
+           fetchDepth: 0
+         - task: SonarCloudPrepare@3
+           inputs:
+             SonarQube: 'sonar'
+             organization: 'achintadutta04'
+             scannerMode: 'cli'
+             configMode: 'manual'
+             cliProjectKey: 'achintadutta04_react-todo'
+             cliProjectName: 'react-todo'
+             cliSources: '.'
+         - task: SonarCloudAnalyze@3
+           inputs:
+             jdkversion: 'JAVA_HOME_17_X64'
+         - task: SonarCloudPublish@3
+           inputs:
+             pollingTimeoutSec: '300'
+             
   - stage: build
     jobs:
       - job: buildJob
@@ -27,6 +50,8 @@ stages:
             targetPath: '$(System.DefaultWorkingDirectory)/build'
             artifact: 'todo-build'
             publishLocation: 'pipeline'
+
+  
 
   - stage: deploy
     jobs:
