@@ -4,7 +4,7 @@ import { Button, TextField, Container, Typography, Grid, Card, CardContent, Icon
 import { Delete } from '@mui/icons-material';
 import { Box } from '@mui/material';
 
-const API_BASE_URL = 'http://52.146.33.135:8000';
+const API_BASE_URL = 'http://13.200.5.124//:8000';
 
 const backgroundImage = process.env.PUBLIC_URL + '/background.jpg';
 
@@ -64,7 +64,8 @@ function TodoApp() {
                         margin: '8px',
                     }}
                 >
-                    <img src="/devopsinsiderslogo.png" alt="My Logo" />
+                   <span style={{ fontWeight: 'bold', fontSize: '40px' }}>DEVOPS PIONEER</span>
+                   <br />
                     ToDo App
                 </Typography>
                 <div>
