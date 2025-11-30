@@ -47,7 +47,7 @@ jobs:
     
     steps:
       - name: Download Build Artifact
-        uses: actions/download-artifact@v6
+        uses: actions/download-artifact@v5
         with:
           name: build-output
           path: ./buildartifact
@@ -57,7 +57,4 @@ jobs:
 
       - name: Copy Build Output to Azure VM (Username + Password)
         run: |
-          sshpass -p "${{ secrets.AZURE_VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./buildartifact/build/* ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }}:/var/www/app/
-      
-      
-                
+          sshpass -p "${{ secrets.AZURE_VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./buildartifact/build/* ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }}:/var/www/html/
