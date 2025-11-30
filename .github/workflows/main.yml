@@ -23,6 +23,18 @@ jobs:
         run: |
           node -v
           npm -v
-
-      - name: Version Check
-        run: node -v
+          
+      - name: install and build
+        run: |
+          npm install
+          npm run build
+          
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v5
+        with:
+          name: build-output
+          path: |
+            build/**
+          if-no-files-found: error
+          retention-days: 7
+          overwrite: true
