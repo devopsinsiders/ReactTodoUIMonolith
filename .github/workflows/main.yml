@@ -12,10 +12,17 @@ jobs:
     name: NPM Install and Build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.0
+        
       - name: Setup Node.js environment
         uses: actions/setup-node@v6.0.0
         with:
           node-version: 16.x
+      - name: version check
+        run: |
+          node -v
+          npm -v
 
       - name: Version Check
         run: node -v
