@@ -25,6 +25,8 @@ jobs:
           npm -v
           
       - name: install and build
+        env:
+          CI: false
         run: |
           npm install
           npm run build
