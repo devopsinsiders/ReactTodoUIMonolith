@@ -61,3 +61,8 @@ jobs:
       - name: Copy Build Output to Azure VM (Username + Password)
         run: |
           sshpass -p "${{ secrets.AZURE_VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./buildartifact/* ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }}:/home/adminuser
+      - name: Run sudo-scp on server
+        run: |
+          sshpass -p "${{ secrets.AZURE_VM_PASSWORD }}" ssh -o StrictHostKeyChecking=no \
+          ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }} \
+          "sudo cp -r /home/adminuser/* /var/www/html/"
