@@ -40,3 +40,24 @@ jobs:
           if-no-files-found: error
           retention-days: 7
           overwrite: true
+  release:
+    runs-on: ubuntu-latest
+    environment: 
+      name: dev
+    
+    steps:
+      - name: Download Build Artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: build-output
+          path: ./buildartifact
+
+      - name: Install sshpass
+        run: sudo apt-get update && sudo apt-get install -y sshpass
+
+      - name: Copy Build Output to Azure VM (Username + Password)
+        run: |
+          sshpass -p "${{ secrets.AZURE_VM_PASSWORD }}" scp -o StrictHostKeyChecking=no -r ./buildartifact/build/* ${{ secrets.AZURE_VM_USER }}@${{ secrets.AZURE_VM_HOST }}:/var/www/app/
+      
+      
+                
