@@ -6,7 +6,8 @@ steps:
 - task: NodeTool@0
   inputs:
     versionSource: 'spec'
-    versionSpec: '6.x'
+    versionSpec: '20.x'
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
