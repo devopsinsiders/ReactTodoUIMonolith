@@ -17,3 +17,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'npm run build'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Pipeline.Workspace)'
+    artifact: 'todouiapp'
+    publishLocation: 'pipeline'
