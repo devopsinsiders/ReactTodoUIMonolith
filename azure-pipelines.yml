@@ -1,8 +1,12 @@
 trigger: none 
-pool: app pipeline agent
+pool: my agent pool
 
 
 steps:
+- task: NodeTool@0
+  inputs:
+    versionSource: 'spec'
+    versionSpec: '6.x'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
