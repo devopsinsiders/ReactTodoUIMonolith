@@ -34,7 +34,7 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  identifier: dependencies
+                  identifier: dockerdelegate
                   name: Dependencies
                   spec:
                     image: node:14.18.2-alpine
