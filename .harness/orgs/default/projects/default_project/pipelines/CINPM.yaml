@@ -22,7 +22,7 @@ pipeline:
             os: Linux
             arch: Amd64
           runtime:
-            type: Cloud
+            type: Docker
             spec: {}
           execution:
             steps:
@@ -32,7 +32,7 @@ pipeline:
                   identifier: run_unit_test
                   spec:
                     connectorRef: <+input>
-                    image: golang:1.15
+                    image: node:18.16.0
                     shell: Sh
                     command: |-
                       set +e
@@ -57,15 +57,6 @@ pipeline:
                       go get gotest.tools/gotestsum
                       CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -tags netgo
                       exit 0
-              - step:
-                  type: BuildAndPushDockerRegistry
-                  name: Build And Push Docker Registry
-                  identifier: Build_And_Push_Docker_Registry
-                  spec:
-                    connectorRef: <+input>
-                    repo: <+input>
-                    tags:
-                      - latest
         variables:
           - name: myStageVar
             type: String
