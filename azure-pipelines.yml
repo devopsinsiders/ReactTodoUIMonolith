@@ -3,23 +3,39 @@ pool: my agent pool
 
 
 steps:
-- task: NodeTool@0
+- task: SonarQubePrepare@8
   inputs:
-    versionSource: 'spec'
-    versionSpec: '20.x'
+    SonarQube: 'ado-sonar-svc'
+    scannerMode: 'cli'
+    configMode: 'file'
 
-- task: PowerShell@2
+- task: SonarQubeAnalyze@8
   inputs:
-    targetType: 'inline'
-    script: 'npm install'
+    jdkversion: 'JAVA_HOME_17_X64'
 
-- task: PowerShell@2
+- task: SonarQubePublish@8
   inputs:
-    targetType: 'inline'
-    script: 'npm run build'
+    pollingTimeoutSec: '300'
 
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    artifact: 'todouiapp'
-    publishLocation: 'pipeline'
+
+# steps:
+# - task: NodeTool@0
+#   inputs:
+#     versionSource: 'spec'
+#     versionSpec: '20.x'
+
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: 'npm install'
+
+# - task: PowerShell@2
+#   inputs:
+#     targetType: 'inline'
+#     script: 'npm run build'
+
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#     targetPath: '$(Pipeline.Workspace)'
+#     artifact: 'todouiapp'
+#     publishLocation: 'pipeline'
