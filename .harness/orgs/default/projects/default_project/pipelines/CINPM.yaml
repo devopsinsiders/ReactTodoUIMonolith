@@ -1,0 +1,42 @@
+pipeline:
+  name: CINPM
+  identifier: CINPM
+  projectIdentifier: default_project
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: reactUI
+        build: <+input>
+  stages:
+    - stage:
+        name: cibuild
+        identifier: cibuild
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: false
+            override: true
+            paths: []
+          buildIntelligence:
+            enabled: false
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec:
+              harnessImageConnectorRef: dockerdelegate
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  identifier: dependencies
+                  name: Dependencies
+                  spec:
+                    connectorRef: dockerdelegate
+                    image: node:14.18.2-alpine
+                    command: npm install express@14.18.2 --no-save
