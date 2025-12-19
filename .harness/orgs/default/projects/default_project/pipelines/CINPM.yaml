@@ -37,7 +37,6 @@ pipeline:
                   identifier: dependencies
                   name: Dependencies
                   spec:
-                    connectorRef: dockerdelegate
                     image: node:14.18.2-alpine
                     shell: Bash
                     command: npm install express@14.18.2 --no-save
