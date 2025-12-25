@@ -20,12 +20,12 @@ steps:
   continueOnError: true
   inputs:
     targetType: 'inline'
-    script: 'stylelint .\src\App.css --formatter json > result122.json 2>&1'
+    script: 'stylelint .\src\App.css --formatter json > result112.json'
     workingDirectory: '$(System.Default.WorkingDirectory)'
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)'
-    artifact: 'stylelint22.json'
+    artifact: 'result112.json'
     publishLocation: 'pipeline'
 
 
