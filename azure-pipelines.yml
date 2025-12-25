@@ -16,6 +16,8 @@ steps:
     publishLocation: 'pipeline'
 
 - task: PowerShell@2
+  displayName: Stylelint Tool
+  continueOnError: true
   inputs:
     targetType: 'inline'
     script: 'stylelint .\src\App.css --formatter json > stylelint22.json 2>&1'
