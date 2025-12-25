@@ -21,6 +21,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'stylelint .\src\App.css --formatter json > result122.json 2>&1'
+    workingDirectory: '$(System.Default.WorkingDirectory)'
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)'
