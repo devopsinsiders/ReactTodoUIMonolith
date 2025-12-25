@@ -15,17 +15,35 @@ steps:
 #     artifact: 'biome artifact'
 #     publishLocation: 'pipeline'
 
+# - task: PowerShell@2
+#   displayName: Stylelint Tool
+#   continueOnError: true
+#   inputs:
+#     targetType: 'inline'
+#     script: 'stylelint .\src\App.css --config stylelint.config.mjs'
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#     targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+#     artifact: 'stylelintresult.json'
+#     publishLocation: 'pipeline'
+
 - task: PowerShell@2
   displayName: Stylelint Tool
   continueOnError: true
   inputs:
     targetType: 'inline'
-    script: 'npx stylelint .\src\App.css --formatter json > stylelintresult.json 2>&1'
+    script: |
+      stylelint .\src\App.css `
+        --config stylelint.config.mjs `
+        --formatter json `
+        > $(Pipeline.Workspace)/stylelintresult.json
+
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-    artifact: 'stylelintresult.json'
+    artifact: 'stylelint-result'
     publishLocation: 'pipeline'
+
 
 
 # - task: SonarQubePrepare@8
