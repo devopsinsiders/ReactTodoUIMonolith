@@ -3,24 +3,24 @@ trigger: none
 pool: my agent pool
 
 steps:
-- task: PowerShell@2
-  displayName: Biome
-  continueOnError: true
-  inputs:
-    targetType: 'inline'
-    script: 'biome lint .\src --reporter=junit > result22.xml'
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: '$(Pipeline.Workspace)'
-    artifact: 'biome artifact'
-    publishLocation: 'pipeline'
+# - task: PowerShell@2
+#   displayName: Biome
+#   continueOnError: true
+#   inputs:
+#     targetType: 'inline'
+#     script: 'biome lint .\src --reporter=junit > result22.xml'
+# - task: PublishPipelineArtifact@1
+#   inputs:
+#     targetPath: '$(Pipeline.Workspace)'
+#     artifact: 'biome artifact'
+#     publishLocation: 'pipeline'
 
 - task: PowerShell@2
   displayName: Stylelint Tool
   continueOnError: true
   inputs:
     targetType: 'inline'
-    script: 'stylelint .\src\App.css --formatter json > stylelint22.json 2>&1'
+    script: 'stylelint .\src\App.css --formatter json > result122.json 2>&1'
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: '$(Pipeline.Workspace)'
