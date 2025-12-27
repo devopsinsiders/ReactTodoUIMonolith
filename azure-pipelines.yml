@@ -3,57 +3,57 @@ trigger: none
 pool: my agent pool
 
 stages:
-  # - stage: Security_Scan
-  #   jobs:
-  #     - job: Biome_Scan
-  #       steps: 
-  #       - task: PowerShell@2
-  #         displayName: Biome_Scan
-  #         continueOnError: true
-  #         inputs:
-  #           targetType: 'inline'
-  #           script: 'biome lint .\src --reporter=junit > result22.xml'
-  #       - task: PublishPipelineArtifact@1
-  #         displayName: Biome_Result
-  #         inputs:
-  #           targetPath: '$(Pipeline.Workspace)'
-  #           artifact: 'biome artifact'
-  #           publishLocation: 'pipeline'
+  - stage: Security_Scan
+    jobs:
+      - job: Biome_Scan
+        steps: 
+        - task: PowerShell@2
+          displayName: Biome_Scan
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'biome lint .\src --reporter=junit > result22.xml'
+        - task: PublishPipelineArtifact@1
+          displayName: Biome_Result
+          inputs:
+            targetPath: '$(Pipeline.Workspace)'
+            artifact: 'biome artifact'
+            publishLocation: 'pipeline'
 
-  #     - job: Stylelint_Scan
-  #       steps: 
-  #       - task: PowerShell@2
-  #         displayName: Stylelint Tool
-  #         continueOnError: true
-  #         inputs:
-  #           targetType: 'inline'
-  #           script: 'stylelint .\src\App.css --config stylelint.config.mjs'
-  #       - task: PublishPipelineArtifact@1
-  #         displayName: Stylelint_Result
-  #         inputs:
-  #           targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-  #           artifact: 'stylelintresult.json'
-  #           publishLocation: 'pipeline'
+      - job: Stylelint_Scan
+        steps: 
+        - task: PowerShell@2
+          displayName: Stylelint Tool
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'stylelint .\src\App.css --config stylelint.config.mjs'
+        - task: PublishPipelineArtifact@1
+          displayName: Stylelint_Result
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+            artifact: 'stylelintresult.json'
+            publishLocation: 'pipeline'
 
-  #     - job: Stylelint_Tool2
-  #       steps: 
-  #       - task: PowerShell@2
-  #         displayName: Stylelint_Tool2
-  #         continueOnError: true
-  #         inputs:
-  #           targetType: 'inline'
-  #           script: |
-  #             stylelint .\src\App.css `
-  #               --config stylelint.config.mjs `
-  #               --formatter json `
-  #               > $(Pipeline.Workspace)/stylelintresult.json
+      - job: Stylelint_Tool2
+        steps: 
+        - task: PowerShell@2
+          displayName: Stylelint_Tool2
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: |
+              stylelint .\src\App.css `
+                --config stylelint.config.mjs `
+                --formatter json `
+                > $(Pipeline.Workspace)/stylelintresult.json
 
-  #       - task: PublishPipelineArtifact@1
-  #         displayName: Stylelint_Result2
-  #         inputs:
-  #           targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-  #           artifact: 'stylelint-result'
-  #           publishLocation: 'pipeline'
+        - task: PublishPipelineArtifact@1
+          displayName: Stylelint_Result2
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+            artifact: 'stylelint-result'
+            publishLocation: 'pipeline'
 
   - stage: Build_and_Artifact
     jobs:
@@ -83,24 +83,24 @@ stages:
             artifact: 'todouiapp'
             publishLocation: 'pipeline'
 
-# stages:
-#   - stage: Static Code Analysis
-#     jobs:
-#       - job: SonarQube_Scan
-#         steps: 
-#         - task: SonarQubePrepare@8
-#           inputs:
-#             SonarQube: 'ado-sonar-svc'
-#             scannerMode: 'cli'
-#             configMode: 'file'
 
-#         - task: SonarQubeAnalyze@8
-#           inputs:
-#             jdkversion: 'JAVA_HOME_17_X64'
+  - stage: Static_Code_Analysis
+    jobs:
+      - job: SonarQube_Scan
+        steps: 
+        - task: SonarQubePrepare@8
+          inputs:
+            SonarQube: 'ado-sonar-svc'
+            scannerMode: 'cli'
+            configMode: 'file'
 
-#         - task: SonarQubePublish@8
-#           inputs:
-#             pollingTimeoutSec: '300'
+        - task: SonarQubeAnalyze@8
+          inputs:
+            jdkversion: 'JAVA_HOME_17_X64'
+
+        - task: SonarQubePublish@8
+          inputs:
+            pollingTimeoutSec: '300'
 
 # stages:
 #   - stage: Deploy_on_Server
