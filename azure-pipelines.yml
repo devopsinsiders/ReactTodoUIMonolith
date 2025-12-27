@@ -87,6 +87,12 @@ stages:
             artifact: 'todouiapp'
             publishLocation: 'pipeline'
 
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'todouiapp'
+            targetPath: '$(Pipeline.Workspace)'
+
 
   - stage: Static_Code_Analysis
     jobs:
