@@ -34,5 +34,5 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo $MY_VAR ${{ inputs.santosh }} $MNAME, Thanks to $managedby !
+        echo $MY_VAR - ${{ inputs.santosh }} - $MNAME, Thanks to $managedby !
         
