@@ -6,6 +6,11 @@ on:
    - main
    - feature/**
 
+ pull_request:
+   branches:
+   -  main
+   
+
 jobs:
   demo: 
     name: Demo job
