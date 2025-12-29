@@ -18,5 +18,11 @@ jobs:
     steps:
     - name: Print a greeting
       run: echo "Hello World, this is my first workflow from Github Actions"
+
+    - name: List Files
+      run: ls -l
+
+    - name: Read Readme.md
+      run: cat README.md
       
     
