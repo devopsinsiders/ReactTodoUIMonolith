@@ -26,4 +26,4 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo '$MY_VAR $NAME $MNAME, Thanks to $managedby !'
+        echo $MY_VAR $NAME $MNAME, Thanks to $managedby !
