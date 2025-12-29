@@ -12,13 +12,13 @@ on:
   #   - features/**
 
 jobs:
-  hello:
+  firstjob:
     name: Hello World
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v6.0.1
-      
+  
     - name: Print a greeting
       run: echo "Hello World, this is my first workflow from Github Actions"
 
@@ -27,5 +27,16 @@ jobs:
 
     - name: Read Readme.md
       run: cat README.md
+  
+  secondjob:
+    name: second job
+    runs-on: ubuntu-latest
+    steps:
+    - name: List Files
+      run: ls -l
+
+    - name: Read Readme.md
+      run: cat README.md
+    
       
     
