@@ -17,3 +17,17 @@ stages:
         script: |
           npm install
           npm run build
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build/'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(System.DefaultWorkingDirectory)/build.zip'
+        replaceExistingArchive: true
+    - task: AzureCLI@2
+      inputs:
+        azureSubscription: 'new_infra'
+        scriptType: 'ps'
+        scriptLocation: 'inlineScript'
+        inlineScript: 'az storage blob upload-batch --account-name stg23 --destination cont23 --source build --overwrite'
+    
