@@ -4,34 +4,25 @@ on:
   workflow_dispatch:
     inputs:
       santosh:
-        required: false
         default: dev
         type: string
-
-
-  push:
-    branches:
-    - main
-    - features/**
+  # push:
+  #   branches:
+  #   - main
+  #   - features/**
   # pull_request:
   #   branches:
   #   - main
   #   - features/**
 
-# env:
-#   MY_VAR: Hi there! This workflow running from 
-#   MNAME: environment
-#   managedby: SantoshJi
   
-
-
 jobs:
   firstjob:
     name: Hello World
     runs-on: ubuntu-latest
     steps:
- 
+    - uses: ./.github/workflows/demo.yaml
+      with:
+        santosh: qa
     - name: Print a greeting
-      run: |
-        echo ${{ inputs.santosh }}
-        
+      run: echo ${{ inputs.santosh }}
