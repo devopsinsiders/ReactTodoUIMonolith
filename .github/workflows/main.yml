@@ -1,6 +1,10 @@
 name: application demo workflow
 
-on: workflow_dispatch
+on:
+ push:
+   branches:
+   - main
+   - feature/**
 
 jobs:
   demo: 
