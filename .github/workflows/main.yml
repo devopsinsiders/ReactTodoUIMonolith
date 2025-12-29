@@ -7,5 +7,12 @@ jobs:
     name: Demo job
     runs-on: ubuntu-latest
     steps:
+    - name: checkout
+      uses: actions/checkout@v6.0.1
     - name: Gretting 
       run: echo "hello word"
+    - name: list file
+      run: ls - l
+    - name: read file
+      run: cat package.jason
+      
