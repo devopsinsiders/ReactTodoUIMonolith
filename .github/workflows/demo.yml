@@ -32,6 +32,9 @@ jobs:
     needs: firstjob
     if: always()
     steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+      
     - name: List Files
       run: ls -l
 
