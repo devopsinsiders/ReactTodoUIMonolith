@@ -1,7 +1,7 @@
 name: Demo Workflow
 
 on: 
-  workflow_call:
+  workflow_dispatch:
     inputs:
       santosh:
         required: false
