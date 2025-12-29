@@ -15,4 +15,4 @@ jobs:
     - name: list file
       run: ls - l
     - name: read file
-      run: cat package.jason
+      run: cat package.json
