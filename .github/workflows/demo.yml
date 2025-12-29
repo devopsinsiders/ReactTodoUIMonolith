@@ -22,5 +22,5 @@ jobs:
     name: Hello World
     runs-on: ubuntu-latest
     steps:
-    - name: Print a greeting
-      run: echo ${{ inputs.santosh }}
+      - name: Print a greeting
+        run: echo "Environment name is ${{ inputs.environment }}"
