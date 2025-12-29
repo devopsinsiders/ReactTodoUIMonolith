@@ -1,0 +1,29 @@
+name: Application DemoWork Flow
+
+on:
+  push:
+    branches:
+    - main
+    - features/**
+  pull_request:
+    branches:
+    - main
+
+
+jobs:
+  demo:
+    name: Demo Job
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+    
+    - name: Greetings
+      run: echo "Hello World"
+      
+    - name: list files
+      run: ls -l
+
+    - name: read file
+      run: cat package.json
+
