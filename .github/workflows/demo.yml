@@ -16,9 +16,7 @@ jobs:
     name: Hello World
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v6.0.1
-  
+ 
     - name: Print a greeting
       run: echo "Hello World, this is my first workflow from Github Actions"
 
@@ -32,6 +30,7 @@ jobs:
     name: second job
     runs-on: ubuntu-latest
     needs: firstjob
+    if: always()
     steps:
     - name: List Files
       run: ls -l
