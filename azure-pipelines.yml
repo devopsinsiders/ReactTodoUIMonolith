@@ -1,8 +1,21 @@
-trigger: none 
-pool: Default
+trigger: none
+pool: mahesh_pool
 
-steps: 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "Hello World"'
+stages:
+- stage: 
+  jobs:
+    - job: Build
+      steps:
+      - task: NodeTool@0
+        inputs:
+          versionSource: 'spec'
+          versionSpec: '16.x'
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'npm install'
+
+      - task: PowerShell@2
+        inputs:
+          targetType: 'inline'
+          script: 'npm run install'
