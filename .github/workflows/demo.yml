@@ -12,10 +12,11 @@ on:
   #   - features/**
 
 env:
-  MY_VAR: Hi there! My name is
-  FIRST_NAME: Mona
-  MIDDLE_NAME: The
-  LAST_NAME: Octocat
+  MY_VAR: Hi there! This workflow running from 
+  NAME: dev
+  MNAME: environment
+  managedby: SantoshJi
+
 
 jobs:
   firstjob:
@@ -25,4 +26,4 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
+        echo '$MY_VAR $NAME $MNAME, Thanks to $managedby !'
