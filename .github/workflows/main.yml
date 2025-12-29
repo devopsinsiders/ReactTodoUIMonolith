@@ -9,4 +9,10 @@ jobs:
     steps:
     - name: Greetings
       run: echo "Hello World"
+      
+    - name: list files
+      run: ls -l
+
+    - name: read file
+      run: cat package.json
 
