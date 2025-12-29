@@ -1,0 +1,27 @@
+name: UI_appliction_pipline
+on: workflow_dispatch
+
+jobs:
+  UI-job:
+    name: UI-job
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.1
+      
+    - name: Install Node.js
+      uses: actions/setup-node@v6.1.0
+      with:
+        node-version: 16.x
+
+    - name: npm install
+      run: npm install
+
+    - name: npm run build
+      run: npm run build
+      
+      
+  
+  
+ 
