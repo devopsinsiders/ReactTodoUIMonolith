@@ -18,10 +18,10 @@ on:
   #   - main
   #   - features/**
 
-env:
-  MY_VAR: Hi there! This workflow running from 
-  MNAME: environment
-  managedby: SantoshJi
+# env:
+#   MY_VAR: Hi there! This workflow running from 
+#   MNAME: environment
+#   managedby: SantoshJi
   
 
 
@@ -33,5 +33,5 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo $MY_VAR - ${{ inputs.santosh }} - $MNAME, Thanks to $managedby !
+        echo ${{ inputs.santosh }}
         
