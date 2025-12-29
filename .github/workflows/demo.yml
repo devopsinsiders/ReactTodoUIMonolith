@@ -4,8 +4,7 @@ on:
   workflow_call:
     inputs:
       santosh:
-        description: Select environment
-        required: true
+        required: false
         default: dev
         type: string
 
