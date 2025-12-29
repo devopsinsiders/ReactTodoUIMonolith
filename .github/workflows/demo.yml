@@ -24,7 +24,7 @@ on:
 
 env:
   MY_VAR: Hi there! This workflow running from 
-  NAME: dev
+  NAME: ${{inputs.env}}
   MNAME: environment
   managedby: SantoshJi
   
@@ -38,4 +38,4 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo $MY_VAR $NAME $MNAME, Thanks to $managedby ${{ inputs.env }} !
+        echo $MY_VAR $NAME $MNAME, Thanks to $managedby !
