@@ -3,7 +3,8 @@ name: Demo Workflow
 on: 
   workflow_dispatch:
     inputs:
-      santosh:
+      environment:
+        description: select the environment
         default: dev
         type: string
   # push:
@@ -21,8 +22,5 @@ jobs:
     name: Hello World
     runs-on: ubuntu-latest
     steps:
-    - uses: ./.github/workflows/demo.yaml
-      with:
-        santosh: qa
     - name: Print a greeting
       run: echo ${{ inputs.santosh }}
