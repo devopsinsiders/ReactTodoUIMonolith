@@ -8,11 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v6.0.1
+      uses: actions/checkout@v4
       
     - name: Gretting 
       run: echo "hello word"
+
     - name: list file
-      run: ls - l
+      run: ls -l
+
     - name: read file
       run: cat package.json
