@@ -2,6 +2,17 @@ name: Demo Workflow
 
 on: 
   workflow_dispatch:
+    inputs:
+      env:
+        description: Select environment
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
+          - qa
+
   push:
     branches:
     - main
@@ -16,6 +27,7 @@ env:
   NAME: dev
   MNAME: environment
   managedby: SantoshJi
+  
 
 
 jobs:
@@ -26,4 +38,4 @@ jobs:
  
     - name: Print a greeting
       run: |
-        echo $MY_VAR $NAME $MNAME, Thanks to $managedby !
+        echo $MY_VAR $NAME $MNAME, Thanks to $managedby ${{ input.env }} !
