@@ -1,0 +1,22 @@
+name: Demo Workflow
+
+on: 
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #   - main
+  #   - features/**
+  # pull_request:
+  #   branches:
+  #   - main
+  #   - features/**
+
+jobs:
+  hello:
+    name: Hello World
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print a greeting
+      run: echo "Hello World, this is my first workflow from Github Actions"
+      
+    
