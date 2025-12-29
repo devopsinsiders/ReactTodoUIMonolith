@@ -11,6 +11,12 @@ on:
   #   - main
   #   - features/**
 
+env:
+  MY_VAR: Hi there! My name is
+  FIRST_NAME: Mona
+  MIDDLE_NAME: The
+  LAST_NAME: Octocat
+
 jobs:
   firstjob:
     name: Hello World
@@ -18,28 +24,5 @@ jobs:
     steps:
  
     - name: Print a greeting
-      run: echo "Hello World, this is my first workflow from Github Actions"
-
-    - name: List Files
-      run: ls -l
-
-    - name: Read Readme.md
-      run: cat README.md
-  
-  secondjob:
-    name: second job
-    runs-on: ubuntu-latest
-    needs: firstjob
-    if: always()
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v6.0.1
-      
-    - name: List Files
-      run: ls -l
-
-    - name: Read Readme.md
-      run: cat README.md
-    
-      
-    
+      run: |
+        echo $MY_VAR $FIRST_NAME $MIDDLE_NAME $LAST_NAME.
