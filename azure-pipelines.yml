@@ -32,12 +32,8 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip'
         replaceExistingArchive: true
-
     - task: PowerShell@2
-      displayName: Upload artifact to Nexus
       inputs:
         targetType: 'inline'
-        script: |
-          $zip = "$(System.DefaultWorkingDirectory)\build-$(Build.BuildId).zip"
-          $url = "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"
-          curl -u $env:NEXUS_USER`:$env:NEXUS_PASS --upload-file $zip $url
+        script: 'curl.exe -u "$($env:NEXUS_USER):$($env:NEXUS_PASS)" --upload-file "$(System.DefaultWorkingDirectory)\build-$(Build.BuildId).zip" "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"'''
+    
