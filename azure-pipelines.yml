@@ -1,4 +1,7 @@
-trigger: none
+trigger: 
+ branches:
+    include:
+      - devolope
 
 pool: mahesh_pool
 
@@ -24,10 +27,9 @@ stages:
         archiveType: 'zip'
         archiveFile: '$(System.DefaultWorkingDirectory)/build.zip'
         replaceExistingArchive: true
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'new_infra'
-        scriptType: 'ps'
-        scriptLocation: 'inlineScript'
-        inlineScript: 'az storage blob upload-batch --account-name stg23 --destination cont23 --source build --overwrite'
     
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: '$(System.DefaultWorkingDirectory)/build.zip'
+        artifact: 'Build'
+        publishLocation: 'pipeline'
