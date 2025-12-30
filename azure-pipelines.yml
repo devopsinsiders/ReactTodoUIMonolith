@@ -24,16 +24,16 @@ stages:
           npm install
           npm run build
 
-    - task: ArchiveFiles@2
-      displayName: Zip build folder
-      inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip'
-        replaceExistingArchive: true
+   # - task: ArchiveFiles@2
+    #  displayName: Zip build folder
+    #  inputs:
+     #   rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
+     #   includeRootFolder: true
+     #   archiveType: 'zip'
+        #archiveFile: '$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip'
+       # replaceExistingArchive: true
     - task: PowerShell@2
       inputs:
         targetType: 'inline'
-        script: 'curl.exe -u "$($env:NEXUS_USER):$($env:NEXUS_PASS)" --upload-file "$(System.DefaultWorkingDirectory)\build-$(Build.BuildId).zip" "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"'''
+        script: 'curl.exe -u "$($env:NEXUS_USER):$($env:NEXUS_PASS)" --upload-file "$(System.DefaultWorkingDirectory)\build-$(Build.BuildId).zip" "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"'
     
