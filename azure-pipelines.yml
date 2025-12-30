@@ -7,34 +7,37 @@ pool: mahesh_pool
 
 stages:
 - stage: Build
+  displayName: Build & Upload to Nexus
   jobs:
   - job: Build
     steps:
+
     - task: NodeTool@0
       inputs:
         versionSpec: '16.x'
 
     - task: PowerShell@2
+      displayName: npm install & build
       inputs:
         targetType: 'inline'
         script: |
           npm install
           npm run build
+
     - task: ArchiveFiles@2
+      displayName: Zip build folder
       inputs:
-        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build/'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
         includeRootFolder: true
         archiveType: 'zip'
-        archiveFile: '$(System.DefaultWorkingDirectory)/build.zip'
+        archiveFile: '$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip'
         replaceExistingArchive: true
-    
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: '$(System.DefaultWorkingDirectory)/build'
-        artifact: 'Build'
-        publishLocation: 'pipeline'
 
     - task: PowerShell@2
+      displayName: Upload artifact to Nexus
       inputs:
         targetType: 'inline'
-        script: 'curl -u $(NEXUS_USER):$(NEXUS_PASS) --upload-file $(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip $(NEXUS_URL)/repository/$(NEXUS_REPO)/build-$(Build.BuildId).zip'
+        script: |
+          $zip = "$(System.DefaultWorkingDirectory)\build-$(Build.BuildId).zip"
+          $url = "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"
+          curl -u $env:NEXUS_USER`:$env:NEXUS_PASS --upload-file $zip $url
