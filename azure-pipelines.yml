@@ -33,3 +33,8 @@ stages:
         targetPath: '$(System.DefaultWorkingDirectory)/build'
         artifact: 'Build'
         publishLocation: 'pipeline'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: 'curl -u $(NEXUS_USER):$(NEXUS_PASS) --upload-file $(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip $(NEXUS_URL)/repository/$(NEXUS_REPO)/build-$(Build.BuildId).zip'
