@@ -1,8 +1,41 @@
-trigger: none 
-pool: Default
+trigger: 
+ branches:
+    include:
+      - devolope
 
-steps: 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "Hello World"'
+pool: mahesh_pool
+
+stages:
+- stage: Build
+  displayName: Build & Upload to Nexus
+  jobs:
+  - job: Build
+    steps:
+
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '16.x'
+
+    - task: PowerShell@2
+      displayName: npm install & build
+      inputs:
+        targetType: 'inline'
+        script: |
+          npm install
+          npm run build
+
+   # - task: ArchiveFiles@2
+    #  displayName: Zip build folder
+    #  inputs:
+     #   rootFolderOrFile: '$(System.DefaultWorkingDirectory)/build'
+     #   includeRootFolder: true
+     #   archiveType: 'zip'
+        #archiveFile: '$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip'
+       # replaceExistingArchive: true
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: |
+           curl.exe -u "$env:NEXUS_USER:$env:NEXUS_PASS" --upload-file "$(System.DefaultWorkingDirectory)/build-$(Build.BuildId).zip" "$env:NEXUS_URL/repository/$env:NEXUS_REPO/build-$(Build.BuildId).zip"
+
+    
