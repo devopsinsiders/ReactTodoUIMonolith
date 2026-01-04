@@ -85,7 +85,7 @@ stages:
   - stage: BuildAndPackage
     jobs:
       - job: BuildAndPackage
-        displayName: Install_NodeJS
+        displayName: BuildAndPackage
         steps:
         - task: NodeTool@0
           displayName: Install_NodeJS
