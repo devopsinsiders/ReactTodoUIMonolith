@@ -5,55 +5,72 @@ pool: my agent pool
 stages:
   - stage: Lint_Scanning_Tool
     jobs:
-      - job: Biome_Scan
-        steps: 
-        - task: PowerShell@2
-          displayName: Biome_Scan
-          continueOnError: true
-          inputs:
-            targetType: 'inline'
-            script: 'biome lint .\src --reporter=junit > result22.xml'
-        - task: PublishPipelineArtifact@1
-          displayName: Biome_Result
-          inputs:
-            targetPath: '$(Pipeline.Workspace)'
-            artifact: 'biome artifact'
-            publishLocation: 'pipeline'
+      # - job: Biome_Scan
+      #   steps: 
+      #   - task: PowerShell@2
+      #     displayName: Biome_Scan
+      #     continueOnError: true
+      #     inputs:
+      #       targetType: 'inline'
+      #       script: 'biome lint .\src --reporter=junit > result22.xml'
+      #   - task: PublishPipelineArtifact@1
+      #     displayName: Biome_Result
+      #     inputs:
+      #       targetPath: '$(Pipeline.Workspace)'
+      #       artifact: 'biome artifact'
+      #       publishLocation: 'pipeline'
 
-      - job: Stylelint_Scan
+      - job: Markdownlint_Scan
+        displayName: Markdownlint_Scan
         steps: 
         - task: PowerShell@2
-          displayName: Stylelint Tool
-          continueOnError: true
-          inputs:
-            targetType: 'inline'
-            script: 'stylelint .\src\App.css --config stylelint.config.mjs'
-        - task: PublishPipelineArtifact@1
-          displayName: Stylelint_Result
-          inputs:
-            targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-            artifact: 'stylelintresult.json'
-            publishLocation: 'pipeline'
-
-      - job: Stylelint_Tool2
-        steps: 
-        - task: PowerShell@2
-          displayName: Stylelint_Tool2
-          continueOnError: true
+          displayName: Markdownlint_Scan
           inputs:
             targetType: 'inline'
             script: |
-              stylelint .\src\App.css `
-                --config stylelint.config.mjs `
-                --formatter json `
-                > $(Pipeline.Workspace)/stylelintresult.json
-
+              npm install -g markdownlint-cli
+              markdownlint .\README.md --json -o markresult.json
         - task: PublishPipelineArtifact@1
-          displayName: Stylelint_Result2
+          displayName: markdownlint_Result
           inputs:
-            targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-            artifact: 'stylelint-result'
+            targetPath: '$(Pipeline.Workspace)'
+            artifact: 'markdown artifact'
             publishLocation: 'pipeline'
+
+      # - job: Stylelint_Scan
+      #   steps: 
+      #   - task: PowerShell@2
+      #     displayName: Stylelint Tool
+      #     continueOnError: true
+      #     inputs:
+      #       targetType: 'inline'
+      #       script: 'stylelint .\src\App.css --config stylelint.config.mjs'
+      #   - task: PublishPipelineArtifact@1
+      #     displayName: Stylelint_Result
+      #     inputs:
+      #       targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+      #       artifact: 'stylelintresult.json'
+      #       publishLocation: 'pipeline'
+
+      # - job: Stylelint_Tool2
+      #   steps: 
+      #   - task: PowerShell@2
+      #     displayName: Stylelint_Tool2
+      #     continueOnError: true
+      #     inputs:
+      #       targetType: 'inline'
+      #       script: |
+      #         stylelint .\src\App.css `
+      #           --config stylelint.config.mjs `
+      #           --formatter json `
+      #           > $(Pipeline.Workspace)/stylelintresult.json
+
+      #   - task: PublishPipelineArtifact@1
+      #     displayName: Stylelint_Result2
+      #     inputs:
+      #       targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+      #       artifact: 'stylelint-result'
+      #       publishLocation: 'pipeline'
 
   - stage: Build_and_Artifact
     jobs:
@@ -111,11 +128,3 @@ stages:
         - task: SonarQubePublish@8
           inputs:
             pollingTimeoutSec: '300'
-
-# stages:
-#   - stage: Deploy_on_Server
-#     jobs:
-#       - job: Deploy
-#         steps: 
-
-        
