@@ -21,6 +21,7 @@ stages:
             publishLocation: 'pipeline'
 
       - job: Markdownlint_Scan
+        dependsOn: Biome_Scan
         displayName: Markdownlint_Scan
         steps: 
         - task: PowerShell@2
@@ -31,7 +32,9 @@ stages:
             script: |
               npm install -g markdownlint-cli
               markdownlint .\README.md --json -o markresult.json
+
       - job: Yamllint_Scan
+        dependsOn: Markdownlint_Scan
         displayName: Yamllint_Scan
         steps: 
         - task: PowerShell@2
@@ -44,6 +47,7 @@ stages:
               yamllint $(System.DefaultWorkingDirectory)
 
       - job: Stylelint_Scan
+        dependsOn: Yamllint_Scan
         steps: 
         - task: PowerShell@2
           displayName: Stylelint Tool
@@ -90,8 +94,9 @@ stages:
             versionSpec: '20.x'
 
 
-      - job: npm_install_run_build
-        displayName: npm_install_run_build
+      - job: npm_install
+        dependsOn: Install_NodeJS
+        displayName: npm_install
         steps:
         - task: PowerShell@2
           displayName: npm_install
@@ -100,6 +105,7 @@ stages:
             script: 'npm install'
 
       - job: npm_run_build
+        dependsOn: npm_install
         displayName: npm_run_build
         steps:
 
