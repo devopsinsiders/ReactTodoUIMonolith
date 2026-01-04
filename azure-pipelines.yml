@@ -82,32 +82,32 @@ stages:
       #       artifact: 'stylelint-result'
       #       publishLocation: 'pipeline'
 
-  - stage: BuildAndPackage
-    jobs:
-      - job: BuildAndPackage
-        displayName: BuildAndPackage
-        steps:
-        - task: NodeTool@0
-          displayName: Install_NodeJS
-          inputs:
-            versionSource: 'spec'
-            versionSpec: '20.x'
-        - task: PowerShell@2
-          displayName: npm_install
-          inputs:
-            targetType: 'inline'
-            script: 'npm install'
-        - task: PowerShell@2
-          displayName: npm_run_build
-          inputs:
-            targetType: 'inline'
-            script: 'npm run build'
-        - task: PublishPipelineArtifact@1
-          displayName: build_artifact
-          inputs:
-            targetPath: '$(System.DefaultWorkingDirectory)/build'
-            artifact: 'todouiapp'
-            publishLocation: 'pipeline'
+  # - stage: BuildAndPackage
+  #   jobs:
+  #     - job: BuildAndPackage
+  #       displayName: BuildAndPackage
+  #       steps:
+  #       - task: NodeTool@0
+  #         displayName: Install_NodeJS
+  #         inputs:
+  #           versionSource: 'spec'
+  #           versionSpec: '20.x'
+  #       - task: PowerShell@2
+  #         displayName: npm_install
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'npm install'
+  #       - task: PowerShell@2
+  #         displayName: npm_run_build
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'npm run build'
+  #       - task: PublishPipelineArtifact@1
+  #         displayName: build_artifact
+  #         inputs:
+  #           targetPath: '$(System.DefaultWorkingDirectory)/build'
+  #           artifact: 'todouiapp'
+  #           publishLocation: 'pipeline'
 
   - stage: Downloadpackage
     jobs:
@@ -116,7 +116,11 @@ stages:
         steps:
         - task: DownloadPipelineArtifact@2
           inputs:
-            buildType: 'current'
+            buildType: 'specific'
+            project: 'a0f1484e-6430-4e5a-a152-69063a459b63'
+            definition: '44'
+            buildVersionToDownload: 'specific'
+            pipelineId: '584'
             artifactName: 'todouiapp'
             targetPath: '$(System.DefaultWorkingDirectory)/build/'
 
