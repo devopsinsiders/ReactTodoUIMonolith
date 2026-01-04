@@ -105,7 +105,7 @@ stages:
         - task: PublishPipelineArtifact@1
           displayName: build_artifact
           inputs:
-            targetPath: '$(Pipeline.Workspace)'
+            targetPath: '$(System.DefaultWorkingDirectory)/build'
             artifact: 'todouiapp'
             publishLocation: 'pipeline'
   # - stage: Downloadpackage
