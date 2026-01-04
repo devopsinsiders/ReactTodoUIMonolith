@@ -3,40 +3,34 @@ trigger: none
 pool: my agent pool
 
 stages:
-  - stage: Lint_Scanning_Tool
+  - stage: CodeQualityChecks
     jobs:
-      # - job: Biome_Scan
-      #   steps: 
-      #   - task: PowerShell@2
-      #     displayName: Biome_Scan
-      #     continueOnError: true
-      #     inputs:
-      #       targetType: 'inline'
-      #       script: 'biome lint .\src --reporter=junit > result22.xml'
-      #   - task: PublishPipelineArtifact@1
-      #     displayName: Biome_Result
-      #     inputs:
-      #       targetPath: '$(Pipeline.Workspace)'
-      #       artifact: 'biome artifact'
-      #       publishLocation: 'pipeline'
+      - job: Biome_Scan
+        steps: 
+        - task: PowerShell@2
+          displayName: Biome_Scan
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'biome lint .\src --reporter=junit > result22.xml'
+        - task: PublishPipelineArtifact@1
+          displayName: Biome_Result
+          inputs:
+            targetPath: '$(Pipeline.Workspace)'
+            artifact: 'Biome artifact'
+            publishLocation: 'pipeline'
 
       - job: Markdownlint_Scan
         displayName: Markdownlint_Scan
         steps: 
-      #   - task: PowerShell@2
-      #     displayName: Markdownlint_Scan
-      #     continueOnError: true
-      #     inputs:
-      #       targetType: 'inline'
-      #       script: |
-      #         npm install -g markdownlint-cli
-      #         markdownlint .\README.md --json -o markresult.json
-      #   - task: PublishPipelineArtifact@1
-      #     displayName: markdownlint_Result
-      #     inputs:
-      #       targetPath: '$(Pipeline.Workspace)'
-      #       artifact: 'markdown artifact'
-      #       publishLocation: 'pipeline'
+        - task: PowerShell@2
+          displayName: Markdownlint_Scan
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: |
+              npm install -g markdownlint-cli
+              markdownlint .\README.md --json -o markresult.json
 
         - task: PowerShell@2
           displayName: Yamllint_Scan
@@ -45,28 +39,22 @@ stages:
             targetType: 'inline'
             script: |
               pip install --user yamllint
-              yamllint $(System.DefaultWorkingDirectory) -f parsable file.yaml
-        - task: PublishPipelineArtifact@1
-          displayName: Yamllint_Result
-          inputs:
-            targetPath: '$(Pipeline.Workspace)'
-            artifact: 'yamllint artifact'
-            publishLocation: 'pipeline'
+              yamllint $(System.DefaultWorkingDirectory)
 
-      # - job: Stylelint_Scan
-      #   steps: 
-      #   - task: PowerShell@2
-      #     displayName: Stylelint Tool
-      #     continueOnError: true
-      #     inputs:
-      #       targetType: 'inline'
-      #       script: 'stylelint .\src\App.css --config stylelint.config.mjs'
-      #   - task: PublishPipelineArtifact@1
-      #     displayName: Stylelint_Result
-      #     inputs:
-      #       targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
-      #       artifact: 'stylelintresult.json'
-      #       publishLocation: 'pipeline'
+      - job: Stylelint_Scan
+        steps: 
+        - task: PowerShell@2
+          displayName: Stylelint Tool
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: 'stylelint .\src\App.css --config stylelint.config.mjs'
+        - task: PublishPipelineArtifact@1
+          displayName: Stylelint_Result
+          inputs:
+            targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+            artifact: 'stylelintresult.json'
+            publishLocation: 'pipeline'
 
       # - job: Stylelint_Tool2
       #   steps: 
@@ -88,9 +76,10 @@ stages:
       #       artifact: 'stylelint-result'
       #       publishLocation: 'pipeline'
 
-  - stage: Build_and_Artifact
+  - stage: BuildAndPackage
     jobs:
-      - job: 
+      - job: Install_NodeJS
+        displayName: Install_NodeJS
         steps:
         - task: NodeTool@0
           displayName: Install_NodeJS
@@ -100,6 +89,7 @@ stages:
 
 
       - job: npm_install_run_build
+        displayName: npm_install_run_build
         steps:
         - task: PowerShell@2
           displayName: npm_install
@@ -123,13 +113,14 @@ stages:
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
-            artifactName: 'todouiapp'
+            artifactName: 'todouiapp_build'
             targetPath: '$(Pipeline.Workspace)'
 
 
   - stage: Static_Code_Analysis
     jobs:
       - job: SonarQube_Scan
+        displayName: SonarQube_Scan
         steps: 
         - task: SonarQubePrepare@8
           inputs:
