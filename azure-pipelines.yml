@@ -108,7 +108,6 @@ stages:
         dependsOn: npm_install
         displayName: npm_run_build
         steps:
-
         - task: PowerShell@2
           displayName: npm_run_build
           inputs:
