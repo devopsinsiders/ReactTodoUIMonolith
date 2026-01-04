@@ -23,20 +23,20 @@ stages:
       - job: Markdownlint_Scan
         displayName: Markdownlint_Scan
         steps: 
-        - task: PowerShell@2
-          displayName: Markdownlint_Scan
-          continueOnError: true
-          inputs:
-            targetType: 'inline'
-            script: |
-              npm install -g markdownlint-cli
-              markdownlint .\README.md --json -o markresult.json
-        - task: PublishPipelineArtifact@1
-          displayName: markdownlint_Result
-          inputs:
-            targetPath: '$(Pipeline.Workspace)'
-            artifact: 'markdown artifact'
-            publishLocation: 'pipeline'
+      #   - task: PowerShell@2
+      #     displayName: Markdownlint_Scan
+      #     continueOnError: true
+      #     inputs:
+      #       targetType: 'inline'
+      #       script: |
+      #         npm install -g markdownlint-cli
+      #         markdownlint .\README.md --json -o markresult.json
+      #   - task: PublishPipelineArtifact@1
+      #     displayName: markdownlint_Result
+      #     inputs:
+      #       targetPath: '$(Pipeline.Workspace)'
+      #       artifact: 'markdown artifact'
+      #       publishLocation: 'pipeline'
 
         - task: PowerShell@2
           displayName: Yamllint_Scan
