@@ -38,6 +38,21 @@ stages:
             artifact: 'markdown artifact'
             publishLocation: 'pipeline'
 
+        - task: PowerShell@2
+          displayName: Yamllint_Scan
+          continueOnError: true
+          inputs:
+            targetType: 'inline'
+            script: |
+              pip install --user yamllint
+              yamllint $(System.DefaultWorkingDirectory)
+        - task: PublishPipelineArtifact@1
+          displayName: Yamllint_Result
+          inputs:
+            targetPath: '$(Pipeline.Workspace)'
+            artifact: 'yamllint artifact'
+            publishLocation: 'pipeline'
+
       # - job: Stylelint_Scan
       #   steps: 
       #   - task: PowerShell@2
