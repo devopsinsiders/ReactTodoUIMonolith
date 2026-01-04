@@ -120,8 +120,13 @@ stages:
             artifactName: 'todouiapp'
             targetPath: '$(System.DefaultWorkingDirectory)/build/'
 
-        
-
+        - task: CopyFilesOverSSH@0
+          inputs:
+            sshEndpoint: 'vm_ssh'
+            sourceFolder: '$(System.DefaultWorkingDirectory)/build/'
+            contents: '**'
+            targetFolder: '/var/www/html'
+            readyTimeout: '20000'
 
   # - stage: Static_Code_Analysis
   #   jobs:
