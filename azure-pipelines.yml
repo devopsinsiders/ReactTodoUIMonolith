@@ -31,7 +31,9 @@ stages:
             script: |
               npm install -g markdownlint-cli
               markdownlint .\README.md --json -o markresult.json
-
+      - job: Yamllint_Scan
+        displayName: Yamllint_Scan
+        steps: 
         - task: PowerShell@2
           displayName: Yamllint_Scan
           continueOnError: true
