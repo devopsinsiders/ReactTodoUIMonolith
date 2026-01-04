@@ -108,20 +108,19 @@ stages:
             targetPath: '$(System.DefaultWorkingDirectory)/build'
             artifact: 'todouiapp'
             publishLocation: 'pipeline'
-  # - stage: Downloadpackage
-  #   jobs:
-  #     - job: Downloadpackage
-  #       displayName: Downloadpackage
-  #       steps:
-  #       - task: DownloadPipelineArtifact@2
-  #         inputs:
-  #           buildType: 'specific'
-  #           project: 'a0f1484e-6430-4e5a-a152-69063a459b63'
-  #           definition: '44'
-  #           buildVersionToDownload: 'specific'
-  #           pipelineId: '580'
-  #           artifactName: 'todouiapp'
-  #           targetPath: '$(System.DefaultWorkingDirectory)'
+
+  - stage: Downloadpackage
+    jobs:
+      - job: Downloadpackage
+        displayName: Downloadpackage
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'todouiapp'
+            targetPath: '$(System.DefaultWorkingDirectory)/build/'
+
+        
 
 
   # - stage: Static_Code_Analysis
