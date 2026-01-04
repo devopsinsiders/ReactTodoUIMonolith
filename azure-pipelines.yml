@@ -45,7 +45,7 @@ stages:
             targetType: 'inline'
             script: |
               pip install --user yamllint
-              yamllint $(System.DefaultWorkingDirectory)
+              yamllint $(System.DefaultWorkingDirectory) -f parsable file.yaml
         - task: PublishPipelineArtifact@1
           displayName: Yamllint_Result
           inputs:
