@@ -115,18 +115,18 @@ stages:
             targetType: 'inline'
             script: 'npm run build'
 
-        - task: PublishPipelineArtifact@1
-          displayName: build_artifact
-          inputs:
-            targetPath: '$(Pipeline.Workspace)'
-            artifact: 'todouiapp'
-            publishLocation: 'pipeline'
+        # - task: PublishPipelineArtifact@1
+        #   displayName: build_artifact
+        #   inputs:
+        #     targetPath: '$(Pipeline.Workspace)'
+        #     artifact: 'todouiapp'
+        #     publishLocation: 'pipeline'
 
-        - task: DownloadPipelineArtifact@2
-          inputs:
-            buildType: 'current'
-            artifactName: 'todouiapp_build'
-            targetPath: '$(Pipeline.Workspace)'
+        # - task: DownloadPipelineArtifact@2
+        #   inputs:
+        #     buildType: 'current'
+        #     artifactName: 'todouiapp_build'
+        #     targetPath: '$(Pipeline.Workspace)'
 
 
   - stage: Static_Code_Analysis
