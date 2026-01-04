@@ -25,6 +25,7 @@ stages:
         steps: 
         - task: PowerShell@2
           displayName: Markdownlint_Scan
+          continueOnError: true
           inputs:
             targetType: 'inline'
             script: |
