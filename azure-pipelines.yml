@@ -132,21 +132,24 @@ stages:
             targetFolder: '/var/www/html'
             readyTimeout: '20000'
 
-  # - stage: Static_Code_Analysis
-  #   jobs:
-  #     - job: SonarQube_Scan
-  #       displayName: SonarQube_Scan
-  #       steps: 
-  #       - task: SonarQubePrepare@8
-  #         inputs:
-  #           SonarQube: 'ado-sonar-svc'
-  #           scannerMode: 'cli'
-  #           configMode: 'file'
+  - stage: Static_Code_Analysis
+    jobs:
+      - job: SonarQube_Scan
+        displayName: SonarQube_Scan
+        steps: 
+        - task: SonarQubePrepare@8
+          inputs:
+            SonarQube: 'ado-sonar-svc'
+            scannerMode: 'cli'
+            configMode: 'manual'
+            cliProjectKey: 'todo-ui-001'
+            cliProjectName: 'todo-ui-001'
+            cliSources: '.'
 
-  #       - task: SonarQubeAnalyze@8
-  #         inputs:
-  #           jdkversion: 'JAVA_HOME_17_X64'
+        - task: SonarQubeAnalyze@8
+          inputs:
+            jdkversion: 'JAVA_HOME_17_X64'
 
-  #       - task: SonarQubePublish@8
-  #         inputs:
-  #           pollingTimeoutSec: '300'
+        - task: SonarQubePublish@8
+          inputs:
+            pollingTimeoutSec: '300'
