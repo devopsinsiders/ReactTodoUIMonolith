@@ -1,8 +1,155 @@
-trigger: none 
-pool: Default
+trigger: none
 
-steps: 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "Hello World"'
+pool: my agent pool
+
+stages:
+  # - stage: CodeQualityChecks
+  #   jobs:
+  #     - job: Biome_Scan
+  #       steps: 
+  #       - task: PowerShell@2
+  #         displayName: Biome_Scan
+  #         continueOnError: true
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'biome lint .\src --reporter=junit > result22.xml'
+  #       - task: PublishPipelineArtifact@1
+  #         displayName: Biome_Result
+  #         inputs:
+  #           targetPath: '$(Pipeline.Workspace)'
+  #           artifact: 'Biome artifact'
+  #           publishLocation: 'pipeline'
+
+  #     - job: Markdownlint_Scan
+  #       dependsOn: Biome_Scan
+  #       displayName: Markdownlint_Scan
+  #       steps: 
+  #       - task: PowerShell@2
+  #         displayName: Markdownlint_Scan
+  #         continueOnError: true
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: |
+  #             npm install -g markdownlint-cli
+  #             markdownlint .\README.md --json -o markresult.json
+
+  #     - job: Yamllint_Scan
+  #       dependsOn: Markdownlint_Scan
+  #       displayName: Yamllint_Scan
+  #       steps: 
+  #       - task: PowerShell@2
+  #         displayName: Yamllint_Scan
+  #         continueOnError: true
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: |
+  #             pip install --user yamllint
+  #             yamllint $(System.DefaultWorkingDirectory)
+
+  #     - job: Stylelint_Scan
+  #       dependsOn: Yamllint_Scan
+  #       steps: 
+  #       - task: PowerShell@2
+  #         displayName: Stylelint Tool
+  #         continueOnError: true
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'stylelint .\src\App.css --config stylelint.config.mjs'
+  #       - task: PublishPipelineArtifact@1
+  #         displayName: Stylelint_Result
+  #         inputs:
+  #           targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+  #           artifact: 'stylelintresult.json'
+  #           publishLocation: 'pipeline'
+
+      # - job: Stylelint_Tool2
+      #   steps: 
+      #   - task: PowerShell@2
+      #     displayName: Stylelint_Tool2
+      #     continueOnError: true
+      #     inputs:
+      #       targetType: 'inline'
+      #       script: |
+      #         stylelint .\src\App.css `
+      #           --config stylelint.config.mjs `
+      #           --formatter json `
+      #           > $(Pipeline.Workspace)/stylelintresult.json
+
+      #   - task: PublishPipelineArtifact@1
+      #     displayName: Stylelint_Result2
+      #     inputs:
+      #       targetPath: '$(Pipeline.Workspace)/stylelintresult.json'
+      #       artifact: 'stylelint-result'
+      #       publishLocation: 'pipeline'
+
+  # - stage: BuildAndPackage
+  #   jobs:
+  #     - job: BuildAndPackage
+  #       displayName: BuildAndPackage
+  #       steps:
+  #       - task: NodeTool@0
+  #         displayName: Install_NodeJS
+  #         inputs:
+  #           versionSource: 'spec'
+  #           versionSpec: '20.x'
+  #       - task: PowerShell@2
+  #         displayName: npm_install
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'npm install'
+  #       - task: PowerShell@2
+  #         displayName: npm_run_build
+  #         inputs:
+  #           targetType: 'inline'
+  #           script: 'npm run build'
+  #       - task: PublishPipelineArtifact@1
+  #         displayName: build_artifact
+  #         inputs:
+  #           targetPath: '$(System.DefaultWorkingDirectory)/build'
+  #           artifact: 'todouiapp'
+  #           publishLocation: 'pipeline'
+
+  - stage: Downloadpackage
+    jobs:
+      - job: Downloadpackage
+        displayName: Downloadpackage
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'specific'
+            project: 'a0f1484e-6430-4e5a-a152-69063a459b63'
+            definition: '44'
+            buildVersionToDownload: 'specific'
+            pipelineId: '584'
+            artifactName: 'todouiapp'
+            targetPath: '$(System.DefaultWorkingDirectory)/build/'
+
+        - task: CopyFilesOverSSH@0
+          inputs:
+            sshEndpoint: 'vm_ssh'
+            sourceFolder: '$(System.DefaultWorkingDirectory)/build/'
+            contents: '**'
+            targetFolder: '/var/www/html'
+            readyTimeout: '20000'
+
+  - stage: Static_Code_Analysis
+    jobs:
+      - job: SonarQube_Scan
+        displayName: SonarQube_Scan
+        steps: 
+        - task: SonarQubePrepare@8
+          inputs:
+            SonarQube: 'ado-sonar-svc'
+            scannerMode: 'cli'
+            configMode: 'manual'
+            cliProjectKey: 'todo-ui-001'
+            cliProjectName: 'todo-ui-001'
+            cliSources: '.'
+
+        - task: SonarQubeAnalyze@8
+          inputs:
+            jdkversion: 'JAVA_HOME_17_X64'
+
+        - task: SonarQubePublish@8
+          inputs:
+            pollingTimeoutSec: '300'
